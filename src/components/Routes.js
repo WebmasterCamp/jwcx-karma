@@ -1,73 +1,31 @@
 import React from 'react'
-import {Spin} from 'antd'
 import styled from 'react-emotion'
 import {connect} from 'react-redux'
 import {Router, Route, Switch} from 'react-static'
 
-import Layout from '../components/Dashboard'
-
 import Login from '../routes/login'
+import Landing from '../routes/landing'
+import Camper from '../routes/camper'
+import Admin from '../routes/admin'
 import NotFound from '../routes/404'
 
 import history from '../core/history'
 
-const Page = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  min-height: 100vh;
-`
-
-const Notice = styled.h1`
-  font-size: 2.8em;
-  font-weight: 500;
-
-  color: #555;
-  text-align: center;
-  width: 100%;
-`
-
-const graderRoles = ['core', 'design', 'marketing', 'programming', 'content']
-
 function getByRole(role) {
   if (role === 'admin') {
-    return Dashboard
+    return Admin
   }
 
-  if (graderRoles.includes(role)) {
-    return Submissions
-  } return () => <Notice>สิทธิในการเข้าถึงไม่เพียงพอ</Notice> }
-
-const AuthRoutes = ({user}) => {
-  if (user.uid) {
-    return (
-      <Layout>
-        <Route path="/" component={Landing} exact />
-        <Route path="/camper/:phone" component={getByRole(user.role)} />
-        <Route path="/admin" component={Stats} />
-      </Layout>
-    )
-  }
-
-  if (!user.loading) {
-    return <Login />
-  }
-
-  return (
-    <Page>
-      <Spin size="large" />
-    </Page>
-  )
+  return Camper
 }
 
 const Routes = ({user}) => (
   <Router history={history}>
     <Switch>
+      <Route exact path="/" component={Landing} />
       <Route path="/login" component={Login} />
-      <AuthRoutes user={user} />
+      <Route path="/admin" component={Admin} />
+      <Route exact path="/:phone([0-9]{10})" component={getByRole(user.role)} />
       <Route component={NotFound} />
     </Switch>
   </Router>

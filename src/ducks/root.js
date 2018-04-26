@@ -18,8 +18,5 @@ export const reducers = persistCombineReducers(config, {
 })
 
 export function* rootSaga() {
-  yield all([
-    reauthSaga(),
-    userWatcherSaga(),
-  ])
+  yield all([reauthSaga(), userWatcherSaga()])
 }
