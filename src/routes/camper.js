@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
+import React, {Component, Fragment} from 'react'
 import styled from 'react-emotion'
-import {message} from 'antd'
+import {message, Spin} from 'antd'
 
 import {app} from '../core/fire'
 
@@ -8,7 +8,7 @@ const Backdrop = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
 
   background-image: linear-gradient(rgb(105, 115, 173), rgb(107, 201, 233));
   background-attachment: fixed;
@@ -16,7 +16,7 @@ const Backdrop = styled.div`
   width: 100%;
   min-height: 100vh;
 
-  padding: 2em 2em;
+  padding: 0 2em;
   max-width: 800px;
 `
 
@@ -48,12 +48,14 @@ const SubHeading = styled.h2`
   color: #555;
 `
 
-const Meta = styled.h4`
-  margin: 0;
-  color: #777;
+const Character = styled.img`
+  width: 11em;
+  margin-top: -5em;
 `
 
 const db = app.firestore()
+
+const getCharacter = major => require(`../assets/${major}.svg`)
 
 class Camper extends Component {
   state = {}
@@ -61,11 +63,13 @@ class Camper extends Component {
   async componentDidMount() {
     try {
       const {phone} = this.props.match.params
-      const snap = await db.collection('karma').where('phone', '==', phone).get()
-      console.log('Snapshot', snap)
+      const snap = await db
+        .collection('karma')
+        .where('phone', '==', phone)
+        .get()
 
       if (snap.empty) {
-        message.error(`ไม่พบข้อมูลดังกล่าว`)
+        message.error(`ไม่พบแคมเปอร์ในระบบ`)
         return
       }
 
@@ -84,17 +88,37 @@ class Camper extends Component {
     const {phone} = this.props.match.params
     const {id, firstName, lastName, major, points, spent} = this.state
 
+    if (!id) {
+      return (
+        <Backdrop>
+          <Paper>
+            <Spin />
+          </Paper>
+        </Backdrop>
+      )
+    }
+
     return (
       <Backdrop>
+        <Character src={getCharacter(major)} />
         <Paper>
-          <SubHeading>{firstName} {lastName}</SubHeading>
+          <Fragment>
+            <SubHeading>
+              {firstName} {lastName}
+            </SubHeading>
 
-          <Heading>แต้มบุญ {points - spent} J</Heading>
+            <Heading>
+              แต้มบุญ {points - spent} <small>J</small>
+            </Heading>
 
-          <SubHeading>ใช้จ่ายไปแล้ว: {spent} J</SubHeading>
-          <SubHeading>แต้มบุญที่ได้: {points} J</SubHeading>
+            <SubHeading>
+              ใช้จ่ายไปแล้ว {spent} <small>J</small>
+            </SubHeading>
 
-          <Meta>{phone} - {major}</Meta>
+            <SubHeading>
+              แต้มบุญที่ได้ {points} <small>J</small>
+            </SubHeading>
+          </Fragment>
         </Paper>
       </Backdrop>
     )
