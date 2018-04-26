@@ -25,7 +25,7 @@ const Routes = ({user}) => (
       <Route exact path="/" component={Landing} />
       <Route path="/login" component={Login} />
       <Route path="/admin" component={Admin} />
-      <Route exact path="/:phone([0-9]{10})" component={getByRole(user.role)} />
+      <Route exact path="/:phone" component={getByRole(user.role)} />
       <Route component={NotFound} />
     </Switch>
   </Router>

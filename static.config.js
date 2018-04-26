@@ -36,11 +36,11 @@ export default {
   getRoutes: async () => [
     {
       path: '/',
-      component: 'src/routes/dashboard',
+      component: 'src/routes/landing',
     },
     {
-      path: '/login',
-      component: 'src/routes/login',
+      path: '/admin',
+      component: 'src/routes/admin',
     },
     {
       is404: true,

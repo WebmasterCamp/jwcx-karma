@@ -5,8 +5,8 @@ import { Route } from 'react-router-dom'
 
 import { cleanPath } from 'react-static'
 
-import t_0 from '../../src/routes/dashboard'
-import t_1 from '../../src/routes/login'
+import t_0 from '../../src/routes/landing'
+import t_1 from '../../src/routes/admin'
 import t_2 from '../../src/routes/404'
 
 // Template Map
