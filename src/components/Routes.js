@@ -7,18 +7,6 @@ import {Router, Route, Switch} from 'react-static'
 import Layout from '../components/Dashboard'
 
 import Login from '../routes/login'
-import Dashboard from '../routes/dashboard'
-import Candidates from '../routes/candidates'
-
-import Submissions from '../routes/submissions'
-import Grading from '../routes/evaluate'
-import Gallery from '../routes/gallery'
-import Choose from '../routes/choose'
-import Chosen from '../routes/chosen'
-
-import CandidatePreview from '../routes/candidatePreview'
-import CandidateSummary from '../routes/candidateSummary'
-import Stats from '../routes/stats'
 import NotFound from '../routes/404'
 
 import history from '../core/history'
@@ -51,24 +39,15 @@ function getByRole(role) {
 
   if (graderRoles.includes(role)) {
     return Submissions
-  }
-
-  return () => <Notice>สิทธิในการเข้าถึงไม่เพียงพอ</Notice>
-}
+  } return () => <Notice>สิทธิในการเข้าถึงไม่เพียงพอ</Notice> }
 
 const AuthRoutes = ({user}) => {
   if (user.uid) {
     return (
       <Layout>
-        <Route path="/" component={getByRole(user.role)} exact />
-        <Route path="/grade/:id" component={Grading} />
-        <Route path="/preview/:id" component={CandidatePreview} />
-        <Route path="/summary/:id" component={CandidateSummary} />
-        <Route path="/gallery" component={Gallery} />
-        <Route path="/candidates" component={Candidates} />
-        <Route path="/choose" component={Choose} />
-        <Route path="/chosen" component={Chosen} />
-        <Route path="/stats" component={Stats} />
+        <Route path="/" component={Landing} exact />
+        <Route path="/camper/:phone" component={getByRole(user.role)} />
+        <Route path="/admin" component={Stats} />
       </Layout>
     )
   }
