@@ -64,8 +64,6 @@ class Camper extends Component {
     try {
       const {phone} = this.props.match.params
 
-      console.log('Phone is', phone)
-
       const snap = await db
         .collection('karma')
         .where('phone', '==', phone)
@@ -79,6 +77,18 @@ class Camper extends Component {
       snap.docs[0].ref.onSnapshot(s => {
         const record = s.data()
         console.log(`[+] Record Synchronized:`, record)
+
+        if (record.points > this.state.points) {
+          const givenPoints = record.points - this.state.points
+
+          message.success(`Points Given: ${givenPoints}`)
+        }
+
+        if (record.spent > this.state.spent) {
+          const spentPoints = record.spent - this.state.spent
+
+          message.warn(`Points Taken: ${spentPoints}`)
+        }
 
         this.setState(record)
       })
