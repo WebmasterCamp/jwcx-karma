@@ -3,7 +3,7 @@ import {extractCritical} from 'emotion-server'
 
 import webpack from './webpack.config.js'
 
-const siteRoot = 'https://jwcx-grading.netlify.com'
+const siteRoot = 'https://karma.jwc.in.th'
 
 class Document extends Component {
   render() {
@@ -30,13 +30,17 @@ export default {
   webpack,
   siteRoot,
   getSiteProps: () => ({
-    title: 'JWCx Grading',
+    title: 'JWCx Karma',
     siteRoot,
   }),
   getRoutes: async () => [
     {
       path: '/',
       component: 'src/routes/landing',
+    },
+    {
+      path: '/camper',
+      component: 'src/routes/camper',
     },
     {
       path: '/admin',

@@ -63,6 +63,9 @@ class Camper extends Component {
   async componentDidMount() {
     try {
       const {phone} = this.props.match.params
+
+      console.log('Phone is', phone)
+
       const snap = await db
         .collection('karma')
         .where('phone', '==', phone)

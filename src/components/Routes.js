@@ -25,7 +25,8 @@ const Routes = ({user}) => (
       <Route exact path="/" component={Landing} />
       <Route path="/login" component={Login} />
       <Route path="/admin" component={Admin} />
-      <Route path="/:phone" component={getByRole(user.role)} />
+      <Route path="/camper/:phone" component={getByRole(user.role)} />
+      <Route exact path="/:phone" component={getByRole(user.role)} />
       <Route component={NotFound} />
     </Switch>
   </Router>
