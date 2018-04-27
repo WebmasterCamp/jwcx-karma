@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react'
+import React, {Component} from 'react'
 import styled from 'react-emotion'
 import {message, Spin} from 'antd'
 
@@ -17,7 +17,6 @@ const Backdrop = styled.div`
   min-height: 100vh;
 
   padding: 0 2em;
-  max-width: 800px;
 `
 
 const Paper = styled.div`
@@ -115,23 +114,21 @@ class Camper extends Component {
       <Backdrop>
         <Character src={getCharacter(major)} />
         <Paper>
-          <Fragment>
-            <SubHeading>
-              {firstName} {lastName}
-            </SubHeading>
+          <SubHeading>
+            {firstName} {lastName}
+          </SubHeading>
 
-            <Heading>
-              แต้มบุญ {points - spent} <small>J</small>
-            </Heading>
+          <Heading>
+            แต้มบุญ {points - spent} <small>J</small>
+          </Heading>
 
-            <SubHeading>
-              ใช้จ่ายไปแล้ว {spent} <small>J</small>
-            </SubHeading>
+          <SubHeading>
+            ใช้จ่ายไปแล้ว {spent} <small>J</small>
+          </SubHeading>
 
-            <SubHeading>
-              แต้มบุญที่ได้ {points} <small>J</small>
-            </SubHeading>
-          </Fragment>
+          <SubHeading>
+            แต้มบุญที่ได้ {points} <small>J</small>
+          </SubHeading>
         </Paper>
       </Backdrop>
     )

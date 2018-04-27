@@ -41,7 +41,7 @@ export const TextInput = styled.input`
     transform: translateY(-40px) scale(1);
   }
 
-  ${props => props.meta.touched && props.meta.error && css`
+  ${props => props.meta && props.meta.touched && props.meta.error && css`
     border-bottom: 2px solid #e74c3c;
   `};
 `

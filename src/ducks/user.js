@@ -48,6 +48,8 @@ export function* loginSaga({payload: {password}}) {
     yield call(hide)
     yield call(message.success, `${WelcomeNotice}, admin!`)
     yield fork(authRoutineSaga, user)
+
+    yield call(history.push, '/admin')
   } catch (err) {
     yield call(hide)
     yield put(untouch('login', 'password'))
@@ -83,30 +85,8 @@ export function* logoutSaga() {
 // Routines to perform when the user begins or resumes their session
 export function* authRoutineSaga(user) {
   try {
-    const docRef = db.collection('staffs').doc(user.uid)
-    const doc = yield call(rsf.firestore.getDocument, docRef)
-
-    if (!doc.exists) {
-      yield call(message.error, `ไม่พบข้อมูลสำหรับบัญชีของคุณในระบบ`)
-      return
-    }
-
-    // Merge the user's record with their credentials
-    const record = doc.data()
-
-    const data = {
-      ...userProps(user),
-      ...record,
-      name: user.email.replace('@jwc.in.th', ''),
-    }
-
-    yield put(storeUser(data))
-
-    if (record.role === 'admin') {
-      // yield put(syncStaffs())
-    }
-
     yield put(setLoading(false))
+    yield put(storeUser({role: 'admin'}))
   } catch (err) {
     console.warn('Authentication Routine Failed:', err)
     message.error(err.message)
