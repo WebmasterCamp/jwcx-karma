@@ -57,6 +57,12 @@ const Meta = styled.h4`
 
 const db = app.firestore()
 
+const getCharacter = major => require(`../assets/${major}.svg`)
+
+const Character = styled.img`
+  width: 11em;
+`
+
 class Admin extends Component {
   state = {amount: 0}
 
@@ -142,6 +148,7 @@ class Admin extends Component {
     if (scanNotice) {
       return (
         <Backdrop>
+          <Character src={getCharacter('design')} />
           <Paper>
             <Heading>เข้าสู่ระบบแล้ว!</Heading>
             <SubHeading>
@@ -165,6 +172,7 @@ class Admin extends Component {
 
     return (
       <Backdrop>
+        <Character src={getCharacter(major)} />
         <Paper>
           <SubHeading>
             {firstName} {lastName}
