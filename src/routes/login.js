@@ -21,7 +21,7 @@ const Page = styled.div`
 
 const Login = ({login}) => (
   <Page>
-    <h1>เข้าสู่ระบบ</h1>
+    <h1>เข้าสู่ระบบ Staff</h1>
 
     <Container>
       <LoginForm onSubmit={login} />

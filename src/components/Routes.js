@@ -11,12 +11,12 @@ import NotFound from '../routes/404'
 
 import history from '../core/history'
 
-function getByRole(role) {
+function getByRole(role, route = Camper) {
   if (role === 'admin') {
     return Admin
   }
 
-  return Camper
+  return route
 }
 
 const Routes = ({user}) => (
@@ -24,7 +24,7 @@ const Routes = ({user}) => (
     <Switch>
       <Route exact path="/" component={Landing} />
       <Route path="/login" component={Login} />
-      <Route path="/admin" component={Admin} />
+      <Route path="/admin" component={getByRole(user.role, Login)} />
       <Route path="/camper/:phone" component={getByRole(user.role)} />
       <Route exact path="/:phone" component={getByRole(user.role)} />
       <Route component={NotFound} />

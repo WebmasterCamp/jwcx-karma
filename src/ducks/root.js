@@ -9,7 +9,7 @@ const config = {
   key: 'root',
   storage,
   throttle: 2000,
-  blacklist: ['user'],
+  blacklist: ['user', 'form'],
 }
 
 export const reducers = persistCombineReducers(config, {

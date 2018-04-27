@@ -39,6 +39,10 @@ export default {
       component: 'src/routes/landing',
     },
     {
+      path: '/login',
+      component: 'src/routes/login',
+    },
+    {
       path: '/camper',
       component: 'src/routes/camper',
     },

@@ -37,19 +37,20 @@ const UserNotFoundNotice = `ไม่พบบัญชีผู้ใช้ท�
 const WrongPasswordNotice = `รหัสผ่านดังกล่าวไม่ถูกต้อง กรุณาตรวจสอบความถูกต้องอีกครั้ง`
 const WelcomeNotice = `การลงชื่อเข้าใช้สำเร็จ ยินดีต้อนรับ`
 
-export function* loginSaga({payload: {username, password}}) {
-  const hide = message.loading(`กำลังเข้าสู่ระบบด้วยชื่อผู้ใช้ ${username}`, 0)
+export function* loginSaga({payload: {password}}) {
+  const hide = message.loading(`กำลังเข้าสู่ระบบ...`, 0)
 
   try {
-    const mail = `${username}@jwc.in.th`
+    // Mail for JWCx Karma Staff Account
+    const mail = `karma@jwc.in.th`
     const user = yield call(rsf.auth.signInWithEmailAndPassword, mail, password)
 
     yield call(hide)
-    yield call(message.success, `${WelcomeNotice}, ${username}!`)
+    yield call(message.success, `${WelcomeNotice}, admin!`)
     yield fork(authRoutineSaga, user)
   } catch (err) {
     yield call(hide)
-    yield put(untouch('login', 'username', 'password'))
+    yield put(untouch('login', 'password'))
 
     if (err.code === 'auth/user-not-found') {
       message.error(UserNotFoundNotice)
