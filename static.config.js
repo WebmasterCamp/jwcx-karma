@@ -51,6 +51,10 @@ export default {
       component: 'src/routes/admin',
     },
     {
+      path: '/scoreboard',
+      component: 'src/routes/scoreboard',
+    },
+    {
       is404: true,
       component: 'src/routes/404',
     },

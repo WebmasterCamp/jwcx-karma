@@ -7,6 +7,7 @@ import Login from '../routes/login'
 import Landing from '../routes/landing'
 import Camper from '../routes/camper'
 import Admin from '../routes/admin'
+import Scoreboard from '../routes/scoreboard'
 import NotFound from '../routes/404'
 
 import history from '../core/history'
@@ -24,6 +25,7 @@ const Routes = ({user}) => (
     <Switch>
       <Route exact path="/" component={Landing} />
       <Route path="/login" component={Login} />
+      <Route path="/scoreboard" component={Scoreboard} />
       <Route path="/admin" component={getByRole(user.role, Login)} />
       <Route path="/camper/:phone" component={getByRole(user.role)} />
       <Route exact path="/:phone" component={getByRole(user.role)} />
