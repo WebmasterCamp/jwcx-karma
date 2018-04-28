@@ -104,6 +104,10 @@ class Scoreboard extends Component {
                     .filter(x => x.house === house)
                     .map(x => x.points || 0)
                     .reduce((x, y) => x + y, 0)}
+                  <small style={{fontSize: '0.5em', fontWeight: 300}}>
+                    {' '}
+                    แต้ม
+                  </small>
                 </Points>
               </Paper>
             </Col>
@@ -128,7 +132,7 @@ class Scoreboard extends Component {
                   {item.points}
                   <small style={{fontSize: '0.5em', fontWeight: 300}}>
                     {' '}
-                    pts
+                    แต้ม
                   </small>
                 </Points>
                 <div style={{fontSize: '0.9em'}}>{item.house}</div>
