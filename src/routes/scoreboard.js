@@ -94,7 +94,7 @@ class Scoreboard extends Component {
 
         <Row type="flex" justify="start" gutter={32}>
           {houseNames.map(house => (
-            <Col span={6} key={house}>
+            <Col xs={24} sm={12} lg={6} key={house}>
               <Paper>
                 <Name style={{margin: 0, fontSize: '1.2em'}}>
                   คะแนนกลุ่ม {house}
