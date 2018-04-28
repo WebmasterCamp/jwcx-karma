@@ -36,6 +36,7 @@ const Paper = styled.div`
 `
 
 const Heading = styled.h1`
+  text-align: center;
   margin: 0.5em 0;
 
   font-size: 2.2em;
@@ -45,6 +46,7 @@ const Heading = styled.h1`
 const SubHeading = styled.h2`
   margin: 0;
   color: #555;
+  text-align: center;
 `
 
 const Character = styled.img`
@@ -57,50 +59,50 @@ const db = app.firestore()
 const getCharacter = major => require(`../assets/${major}.svg`)
 
 class Camper extends Component {
-  state = {}
+  state = {record: [], house: null}
 
   async componentDidMount() {
-    try {
-      const {phone} = this.props.match.params
+    const {phone} = this.props.match.params
 
-      const snap = await db
-        .collection('karma')
-        .where('phone', '==', phone)
-        .get()
+    const camperSnap = await db
+      .collection('karma')
+      .where('phone', '==', phone)
+      .get()
 
-      if (snap.empty) {
-        message.error(`ไม่พบแคมเปอร์ในระบบ`)
-        return
-      }
-
-      snap.docs[0].ref.onSnapshot(s => {
-        const record = s.data()
-        console.log(`[+] Record Synchronized:`, record)
-
-        if (record.points > this.state.points) {
-          const givenPoints = record.points - this.state.points
-
-          message.success(`Points Given: ${givenPoints}`)
-        }
-
-        if (record.spent > this.state.spent) {
-          const spentPoints = record.spent - this.state.spent
-
-          message.warn(`Points Taken: ${spentPoints}`)
-        }
-
-        this.setState(record)
-      })
-    } catch (err) {
-      console.warn(err)
+    if (camperSnap.empty) {
+      message.error(`ไม่พบแคมเปอร์ในระบบ`)
+      return
     }
+
+    const {
+      id,
+      nick,
+      firstName,
+      lastName,
+      major,
+      house,
+    } = camperSnap.docs[0].data()
+
+    this.setState({id, nick, firstName, lastName, major, house})
+
+    const snap = db.collection('karma').onSnapshot(snap => {
+      const record = snap.docs
+        .map(x => ({...x.data(), id: x.id}))
+        .sort((a, b) => a.firstName && a.firstName.localeCompare(b.firstName))
+        .sort((a, b) => b.points - a.points)
+        .filter(x => x.house === house)
+
+      console.log(`[+] Scoreboard Synchronized:`, record)
+
+      this.setState({record})
+    })
   }
 
   render() {
     const {phone} = this.props.match.params
-    const {id, firstName, lastName, major, points, spent} = this.state
+    const {record, nick, firstName, lastName, major, house} = this.state
 
-    if (!id) {
+    if (!major) {
       return (
         <Backdrop>
           <Paper>
@@ -110,24 +112,26 @@ class Camper extends Component {
       )
     }
 
+    const sum = (x, y) => x + y
+    const points = record.map(x => x.points || 0).reduce(sum, 0)
+    const spent = record.map(x => x.spent || 0).reduce(sum, 0)
+
     return (
       <Backdrop>
         <Character src={getCharacter(major)} />
         <Paper>
           <SubHeading>
-            {firstName} {lastName}
+            {nick} ({firstName} {lastName})
           </SubHeading>
 
           <Heading>
-            แต้มบุญ {points - spent} <small>J</small>
+            <small>แต้มบุญของ {house}: </small>
+            <b>{points}</b>{' '}
+            <small style={{fontWeight: 500, fontSize: '0.65em'}}>แต้ม</small>
           </Heading>
 
           <SubHeading>
-            ใช้จ่ายไปแล้ว {spent} <small>J</small>
-          </SubHeading>
-
-          <SubHeading>
-            แต้มบุญที่ได้ {points} <small>J</small>
+            ใช้ไปแล้ว <b style={{fontSize: '1.3em'}}>{spent}</b> แต้ม
           </SubHeading>
         </Paper>
       </Backdrop>

@@ -109,6 +109,29 @@ class Scoreboard extends Component {
             </Col>
           ))}
         </Row>
+
+        <Row type="flex" justify="start" gutter={32}>
+          {record.filter(item => item.phone).map(item => (
+            <Col span={6} key={item.id}>
+              <Paper>
+                <Name style={{fontSize: '1.1em'}}>
+                  {item.nick}{' '}
+                  <small>
+                    ({item.firstName} {item.lastName})
+                  </small>
+                </Name>
+                <Points>
+                  {item.points}
+                  <small style={{fontSize: '0.5em', fontWeight: 300}}>
+                    {' '}
+                    pts
+                  </small>
+                </Points>
+                <div style={{fontSize: '0.9em'}}>{item.house}</div>
+              </Paper>
+            </Col>
+          ))}
+        </Row>
       </Backdrop>
     )
   }
