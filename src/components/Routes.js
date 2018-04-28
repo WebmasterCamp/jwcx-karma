@@ -34,7 +34,7 @@ const Routes = ({user}) => (
     <Switch>
       <Route exact path="/" component={Landing} />
       <Route path="/login" component={Login} />
-      <Route path="/scoreboard" component={Scoreboard} />
+      <Route path="/scoreboard" component={getIfAuth(user.role, Scoreboard)} />
       <Route path="/admin" component={getByRole(user.role, Login)} />
       <Route path="/points" component={getIfAuth(user.role, Points)} />
       <Route path="/camper/:phone" component={getByRole(user.role)} />
