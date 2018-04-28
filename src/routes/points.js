@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Row, Col} from 'antd'
+import {Row, Col, message} from 'antd'
 import styled from 'react-emotion'
 
 import Button from '../components/Button'
@@ -88,7 +88,7 @@ class Points extends Component {
       await db.runTransaction(async transaction => {
         const snap = await transaction.get(camperRef)
         const record = snap.data()
-        const total = record.points + amount
+        const total = parseInt(record.points) + parseInt(amount)
 
         const data = {points: total}
 
