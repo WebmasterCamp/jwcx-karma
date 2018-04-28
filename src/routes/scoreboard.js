@@ -110,9 +110,13 @@ class Scoreboard extends Component {
           ))}
         </Row>
 
-        <Row type="flex" justify="start" gutter={32}>
+        <Row
+          type="flex"
+          justify="start"
+          gutter={32}
+          style={{marginTop: '1.5em'}}>
           {record.filter(item => item.phone).map(item => (
-            <Col span={6} key={item.id}>
+            <Col xs={24} sm={12} lg={6} key={item.id}>
               <Paper>
                 <Name style={{fontSize: '1.1em'}}>
                   {item.nick}{' '}
