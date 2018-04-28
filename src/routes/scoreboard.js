@@ -47,6 +47,7 @@ const Heading = styled.h1`
 const Name = styled.h4`
   margin: 0;
   text-align: center;
+  font-size: 2em;
 `
 
 const Points = styled.h2`
@@ -64,7 +65,7 @@ class Scoreboard extends Component {
     const snap = db.collection('karma').onSnapshot(snap => {
       const record = snap.docs
         .map(x => ({...x.data(), id: x.id}))
-        .sort((a, b) => a.firstName.localeCompare(b.firstName))
+        .sort((a, b) => a.firstName && a.firstName.localeCompare(b.firstName))
         .sort((a, b) => b.points - a.points)
 
       console.log(`[+] Scoreboard Synchronized:`, record)
@@ -83,11 +84,14 @@ class Scoreboard extends Component {
         </Paper>
 
         <Row type="flex" justify="start" gutter={32}>
-          {record.map(item => (
+          {record.filter(item => item.phone).map(item => (
             <Col span={6} key={item.id}>
               <Paper>
                 <Name style={{fontSize: '1.1em'}}>
-                  {item.firstName} {item.lastName}
+                  {item.nick}{' '}
+                  <small>
+                    ({item.firstName} {item.lastName})
+                  </small>
                 </Name>
                 <Points>
                   {item.points}
@@ -96,6 +100,7 @@ class Scoreboard extends Component {
                     pts
                   </small>
                 </Points>
+                <div style={{fontSize: '0.9em'}}>{item.house}</div>
               </Paper>
             </Col>
           ))}
